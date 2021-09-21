@@ -33,7 +33,7 @@ const Home = () =>
 
 const Package = () => {
   const [packageInfo, setPackageInfo] = useState({});
-  const [dependencies, setDependencies] = useState([]);
+  const [dependencyInfo, setDependencyInfo] = useState([]);
   const { platform, name } = useParams();
 
   useEffect(() => {
@@ -44,18 +44,18 @@ const Package = () => {
 
     fetch(`https://libraries.io/api/${platform}/${name}/latest/dependencies?api_key=d3eb97492c5d44960268fbaf451e5ad6`)
       .then(response => response.json())
-      .then(dependencies => setDependencies(dependencies));
+      .then(dependencyInfo => setDependencyInfo(dependencyInfo));
     
   }, [])
   
   return (
-    <div className="App-header">
+    <div>
       <h1>Package information for {platform}, {name}</h1>
       <h2>License: {packageInfo?.repository_license}</h2>
       <h3>Versions:</h3>
       {packageInfo?.versions?.map(({number, published_at}, index) => <p key={`version-${index}`}>{number}, {published_at}</p>)}
       <h3>Dependencies:</h3>
-      {dependencies?.map(({homepage, name}, index) => <a key={`dependency-${index}`} href={homepage}>{name}</a>)}
+      {dependencyInfo?.dependencies?.map(({name}, index) => <a key={`dependency-${index}`} target="_blank" rel="noopener noreferrer" href={`https://www.npmjs.com/package/${name}`}>{name}</a>)}
     </div>
   );
 }

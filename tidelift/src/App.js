@@ -42,7 +42,7 @@ const Package = () => {
       .then(response => response.json())
       .then(packageInfo => setPackageInfo(packageInfo));
 
-    fetch(`https://libraries.io/api/${platform}/${name}/dependents?api_key=d3eb97492c5d44960268fbaf451e5ad6`)
+    fetch(`https://libraries.io/api/${platform}/${name}/latest/dependencies?api_key=d3eb97492c5d44960268fbaf451e5ad6`)
       .then(response => response.json())
       .then(dependencies => setDependencies(dependencies));
     
@@ -55,7 +55,7 @@ const Package = () => {
       <h3>Versions:</h3>
       {packageInfo?.versions?.map(({number, published_at}, index) => <p key={`version-${index}`}>{number}, {published_at}</p>)}
       <h3>Dependencies:</h3>
-      {dependencies.map(({homepage, name}, index) => <a key={`dependency-${index}`} href={homepage}>{name}</a>)}
+      {dependencies?.map(({homepage, name}, index) => <a key={`dependency-${index}`} href={homepage}>{name}</a>)}
     </div>
   );
 }
